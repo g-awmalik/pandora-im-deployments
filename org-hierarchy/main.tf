@@ -16,7 +16,7 @@
 
 resource "google_folder" "common" {
   display_name = "pdr-common"
-  parent       = var.folder_id
+  parent       = "folders/${var.folder_id}"
 }
 
 module "project-secrets" {
@@ -53,7 +53,7 @@ module "project-logging" {
 
 resource "google_folder" "networking" {
   display_name = "networking"
-  parent       = var.folder_id
+  parent       = "folders/${var.folder_id}"
 }
 
 module "project-shared-vpc-dev" {
@@ -92,10 +92,10 @@ module "project-shared-vpc-prod" {
 
 resource "google_folder" "development" {
   display_name = "development"
-  parent       = var.folder_id
+  parent       = "folders/${var.folder_id}"
 }
 
 resource "google_folder" "production" {
   display_name = "development"
-  parent       = var.folder_id
+  parent       = "folders/${var.folder_id}"
 }
