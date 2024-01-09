@@ -19,7 +19,7 @@ resource "google_folder" "common" {
   parent       = var.folder_id
 }
 
-module "project-factory" {
+module "project-secrets" {
   source  = "terraform-google-modules/project-factory/google"
   version = "~> 14.4"
 
@@ -35,7 +35,7 @@ module "project-factory" {
   ]
 }
 
-module "project-factory" {
+module "project-logging" {
   source  = "terraform-google-modules/project-factory/google"
   version = "~> 14.4"
 
@@ -56,7 +56,7 @@ resource "google_folder" "networking" {
   parent       = var.folder_id
 }
 
-module "project-factory" {
+module "project-shared-vpc-dev" {
   source  = "terraform-google-modules/project-factory/google"
   version = "~> 14.4"
 
@@ -73,7 +73,7 @@ module "project-factory" {
   ]
 }
 
-module "project-factory" {
+module "project-shared-vpc-prod" {
   source  = "terraform-google-modules/project-factory/google"
   version = "~> 14.4"
 
