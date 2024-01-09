@@ -15,7 +15,7 @@
  */
 
 resource "google_folder" "common" {
-  display_name = "common"
+  display_name = "pdr-common"
   parent       = var.folder_id
 }
 
@@ -24,7 +24,7 @@ module "project-secrets" {
   version = "~> 14.4"
 
   random_project_id = true
-  name              = "prj-c-secrets"
+  name              = "pdr-c-secrets"
   org_id            = var.org_id
   folder_id         = google_folder.common.id
   billing_account   = var.billing_account
@@ -40,7 +40,7 @@ module "project-logging" {
   version = "~> 14.4"
 
   random_project_id = true
-  name              = "prj-c-logging"
+  name              = "pdr-c-logging"
   org_id            = var.org_id
   folder_id         = google_folder.common.id
   billing_account   = var.billing_account
@@ -61,7 +61,7 @@ module "project-shared-vpc-dev" {
   version = "~> 14.4"
 
   random_project_id              = true
-  name                           = "prj-net-dev-shared-vpc"
+  name                           = "pdr-net-dev-shared-vpc"
   org_id                         = var.org_id
   folder_id                      = google_folder.networking.id
   billing_account                = var.billing_account
@@ -78,7 +78,7 @@ module "project-shared-vpc-prod" {
   version = "~> 14.4"
 
   random_project_id              = true
-  name                           = "prj-net-prod-shared-vpc"
+  name                           = "pdr-net-prod-shared-vpc"
   org_id                         = var.org_id
   folder_id                      = google_folder.networking.id
   billing_account                = var.billing_account
