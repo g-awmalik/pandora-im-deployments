@@ -1,6 +1,9 @@
 # GCP environment variables
 setup.sh
 
+# Local .tfvars
+**/terraform.tfvars
+
 # Local .terraform directories
 **/.terraform/*
 
