@@ -96,6 +96,6 @@ resource "google_folder" "development" {
 }
 
 resource "google_folder" "production" {
-  display_name = "development"
+  display_name = "production"
   parent       = "folders/${var.folder_id}"
 }

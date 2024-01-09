@@ -27,6 +27,8 @@ module "seed-project" {
   activate_apis = [
     "cloudresourcemanager.googleapis.com",
     "config.googleapis.com",
+    "cloudbilling.googleapis.com",
+    "serviceusage.googleapis.com",
   ]
 }
 
@@ -34,6 +36,18 @@ resource "google_service_account" "im_org_setup" {
   account_id   = "pdr-im-org-setup"
   display_name = "Pandora IM organization setup service account"
   project      = module.seed-project.project_id
+}
+
+module "billing-account-iam" {
+  source              = "terraform-google-modules/iam/google//modules/billing_accounts_iam"
+  version             = "~> 7.7"
+  billing_account_ids = [var.billing_account]
+  mode                = "additive"
+  bindings = {
+    "roles/billing.user" = [
+      "serviceAccount:${google_service_account.im_org_setup.email}",
+    ]
+  }
 }
 
 module "im_org_setup-project-bindings" {
@@ -53,7 +67,6 @@ module "im_org_setup-folder-bindings" {
   version = "~> 7.7"
   folders = [var.folder_id]
   mode    = "authoritative"
-
   bindings = {
     "roles/resourcemanager.folderAdmin" = [
       "serviceAccount:${google_service_account.im_org_setup.email}",
@@ -64,6 +77,10 @@ module "im_org_setup-folder-bindings" {
     ]
 
     "roles/resourcemanager.projectDeleter" = [
+      "serviceAccount:${google_service_account.im_org_setup.email}",
+    ]
+
+    "roles/compute.xpnAdmin" = [
       "serviceAccount:${google_service_account.im_org_setup.email}",
     ]
   }
