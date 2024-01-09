@@ -14,12 +14,58 @@
  * limitations under the License.
  */
 
-resource "random_id" "project_id_suffix" {
-  byte_length = 4
+module "seed-project" {
+  source  = "terraform-google-modules/project-factory/google"
+  version = "~> 14.4"
+
+  random_project_id = true
+  name              = "pdr-b-seed"
+  org_id            = var.org_id
+  folder_id         = var.folder_id
+  billing_account   = var.billing_account
+
+  activate_apis = [
+    "cloudresourcemanager.googleapis.com",
+    "config.googleapis.com",
+  ]
 }
 
-resource "google_project" "seed_project" {
-  name       = "pdr-b-seed"
-  project_id = "pdr-b-seed-${random_id.project_id_suffix.hex}"
-  folder_id  = var.folder_id
+resource "google_service_account" "im_org_setup" {
+  account_id   = "pdr-im-org-setup"
+  display_name = "Pandora IM organization setup service account"
+  project      = module.seed-project.project_id
 }
+
+module "im_org_setup-project-bindings" {
+  source   = "terraform-google-modules/iam/google//modules/projects_iam"
+  version  = "~> 7.7"
+  projects = [module.seed-project.project_id]
+  mode     = "authoritative"
+  bindings = {
+    "roles/config.agent" = [
+      "serviceAccount:${google_service_account.im_org_setup.email}",
+    ]
+  }
+}
+
+module "im_org_setup-folder-bindings" {
+  source  = "terraform-google-modules/iam/google//modules/folders_iam"
+  version = "~> 7.7"
+  folders = [var.folder_id]
+  mode    = "authoritative"
+
+  bindings = {
+    "roles/resourcemanager.folderAdmin" = [
+      "serviceAccount:${google_service_account.im_org_setup.email}",
+    ]
+
+    "roles/resourcemanager.projectCreator" = [
+      "serviceAccount:${google_service_account.im_org_setup.email}",
+    ]
+
+    "roles/resourcemanager.projectDeleter" = [
+      "serviceAccount:${google_service_account.im_org_setup.email}",
+    ]
+  }
+}
+

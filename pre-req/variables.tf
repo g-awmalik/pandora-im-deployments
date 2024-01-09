@@ -18,3 +18,13 @@ variable "folder_id" {
   description = "Top level folder to hold all projects"
   type        = string
 }
+
+variable "billing_account" {
+  description = "The ID of the billing account to associate projects with"
+  type        = string
+}
+
+variable "org_id" {
+  description = "The organization id for the associated resources"
+  type        = string
+}

@@ -15,5 +15,5 @@
  */
 
 output "project_id" {
-  value = google_project.seed_project.project_id
+  value = module.seed-project.project_id
 }
