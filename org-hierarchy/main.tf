@@ -108,6 +108,7 @@ module "im_seed_sas_config_project_bindings" {
   source   = "terraform-google-modules/iam/google//modules/projects_iam"
   version  = "~> 7.7"
   projects = [var.seed_project_id]
+  mode     = "additive"
   bindings = {
     "roles/config.agent" = [
       "serviceAccount:${google_service_account.im_seed_sas.email}",
