@@ -54,7 +54,6 @@ module "im_org_setup-project-bindings" {
   source   = "terraform-google-modules/iam/google//modules/projects_iam"
   version  = "~> 7.7"
   projects = [module.seed-project.project_id]
-  mode     = "authoritative"
   bindings = {
     "roles/config.agent" = [
       "serviceAccount:${google_service_account.im_org_setup.email}",
