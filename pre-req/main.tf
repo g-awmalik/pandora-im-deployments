@@ -59,6 +59,10 @@ module "im_org_setup-project-bindings" {
     "roles/config.agent" = [
       "serviceAccount:${google_service_account.im_org_setup.email}",
     ]
+
+    "roles/iam.serviceAccountCreator" = [
+      "serviceAccount:${google_service_account.im_org_setup.email}",
+    ]
   }
 }
 
