@@ -23,9 +23,25 @@ resource "google_service_account" "sa_secrets" {
 module "sa_secrets_iam_bindings" {
   source   = "terraform-google-modules/iam/google//modules/projects_iam"
   version  = "~> 7.7"
+  projects = [var.seed_project_id]
+  mode     = "authoritative"
+  bindings = {
+    "roles/config.agent" = [
+      "serviceAccount:${google_service_account.sa_secrets.email}",
+    ]
+  }
+}
+
+module "sa_secrets_iam_bindings" {
+  source   = "terraform-google-modules/iam/google//modules/projects_iam"
+  version  = "~> 7.7"
   projects = [var.secrets_project_id]
   mode     = "authoritative"
   bindings = {
+    "roles/config.agent" = [
+      "serviceAccount:${google_service_account.sa_secrets.email}",
+    ]
+
     "roles/secretmanager.admin" = [
       "serviceAccount:${google_service_account.sa_secrets.email}",
     ]
@@ -36,6 +52,18 @@ resource "google_service_account" "sa_logging" {
   account_id   = "pdr-sa-loggin"
   display_name = "Pandora logging service account"
   project      = var.seed_project_id
+}
+
+module "sa_logging_iam_bindings" {
+  source   = "terraform-google-modules/iam/google//modules/projects_iam"
+  version  = "~> 7.7"
+  projects = [var.seed_project_id]
+  mode     = "authoritative"
+  bindings = {
+    "roles/config.agent" = [
+      "serviceAccount:${google_service_account.sa_logging.email}",
+    ]
+  }
 }
 
 module "sa_logging_iam_bindings" {
@@ -54,6 +82,18 @@ resource "google_service_account" "sa_networking" {
   account_id   = "pdr-sa-networking"
   display_name = "Pandora networking service account"
   project      = var.seed_project_id
+}
+
+module "sa_networking_iam_bindings" {
+  source   = "terraform-google-modules/iam/google//modules/projects_iam"
+  version  = "~> 7.7"
+  projects = [var.seed_project_id]
+  mode     = "authoritative"
+  bindings = {
+    "roles/config.agent" = [
+      "serviceAccount:${google_service_account.sa_networking.email}",
+    ]
+  }
 }
 
 module "sa_networking_iam_bindings" {
@@ -79,6 +119,18 @@ resource "google_service_account" "sa_app_dev" {
 }
 
 module "sa_app_dev_iam_bindings" {
+  source   = "terraform-google-modules/iam/google//modules/projects_iam"
+  version  = "~> 7.7"
+  projects = [var.seed_project_id]
+  mode     = "authoritative"
+  bindings = {
+    "roles/config.agent" = [
+      "serviceAccount:${google_service_account.sa_app_dev.email}",
+    ]
+  }
+}
+
+module "sa_app_dev_iam_bindings" {
   source  = "terraform-google-modules/iam/google//modules/folder_iam"
   version = "~> 7.7"
   folders = [var.development_folder_id]
@@ -94,6 +146,18 @@ resource "google_service_account" "sa_app_prod" {
   account_id   = "pdr-sa-app-prod"
   display_name = "Pandora production application project creator service account"
   project      = var.seed_project_id
+}
+
+module "sa_app_prod_iam_bindings" {
+  source   = "terraform-google-modules/iam/google//modules/projects_iam"
+  version  = "~> 7.7"
+  projects = [var.seed_project_id]
+  mode     = "authoritative"
+  bindings = {
+    "roles/config.agent" = [
+      "serviceAccount:${google_service_account.sa_app_prod.email}",
+    ]
+  }
 }
 
 module "sa_app_prod_iam_bindings" {

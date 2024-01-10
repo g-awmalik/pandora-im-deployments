@@ -94,6 +94,10 @@ module "im_seed_sas_project_bindings" {
   projects = [module.seed-project.project_id]
   mode     = "authoritative"
   bindings = {
+    "roles/config.agent" = [
+      "serviceAccount:${google_service_account.im_seed_sas.email}",
+    ]
+
     "roles/iam.serviceAccountCreator" = [
       "serviceAccount:${google_service_account.im_seed_sas.email}",
     ]
