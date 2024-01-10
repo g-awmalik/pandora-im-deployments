@@ -60,12 +60,11 @@ module "project-shared-vpc-dev" {
   source  = "terraform-google-modules/project-factory/google"
   version = "~> 14.4"
 
-  random_project_id              = true
-  name                           = "pdr-net-dev-shared-vpc"
-  org_id                         = var.org_id
-  folder_id                      = google_folder.networking.id
-  billing_account                = var.billing_account
-  enable_shared_vpc_host_project = true
+  random_project_id = true
+  name              = "pdr-net-dev-shared-vpc"
+  org_id            = var.org_id
+  folder_id         = google_folder.networking.id
+  billing_account   = var.billing_account
 
   activate_apis = [
     "compute.googleapis.com",
@@ -77,12 +76,11 @@ module "project-shared-vpc-prod" {
   source  = "terraform-google-modules/project-factory/google"
   version = "~> 14.4"
 
-  random_project_id              = true
-  name                           = "pdr-net-prod-shared-vpc"
-  org_id                         = var.org_id
-  folder_id                      = google_folder.networking.id
-  billing_account                = var.billing_account
-  enable_shared_vpc_host_project = true
+  random_project_id = true
+  name              = "pdr-net-prod-shared-vpc"
+  org_id            = var.org_id
+  folder_id         = google_folder.networking.id
+  billing_account   = var.billing_account
 
   activate_apis = [
     "compute.googleapis.com",

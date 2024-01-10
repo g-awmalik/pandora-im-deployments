@@ -29,3 +29,15 @@ output "project_shared_vpc_dev" {
 output "project_shared_vpc_prod" {
   value = module.project-shared-vpc-prod.project_id
 }
+
+output "folder_networking" {
+  value = google_folder.networking.id
+}
+
+output "folder_development" {
+  value = google_folder.development.id
+}
+
+output "folder_production" {
+  value = google_folder.production.id
+}
