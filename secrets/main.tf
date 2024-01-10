@@ -23,10 +23,12 @@ module "secret-manager" {
     {
       name                  = "platform-secret-1"
       automatic_replication = true
+      secret_data           = "secret information 1"
     },
     {
       name                  = "platform-secret-2"
       automatic_replication = true
+      secret_data           = "secret information 2"
     },
   ]
 }
