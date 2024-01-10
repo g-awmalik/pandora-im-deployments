@@ -117,6 +117,10 @@ module "im_seed_sas_config_project_bindings" {
     "roles/iam.serviceAccountCreator" = [
       "serviceAccount:${google_service_account.im_seed_sas.email}",
     ]
+
+    "roles/resourcemanager.projectIamAdmin" = [
+      "serviceAccount:${google_service_account.im_seed_sas.email}",
+    ]
   }
 }
 
