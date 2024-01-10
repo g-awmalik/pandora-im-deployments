@@ -97,3 +97,59 @@ resource "google_folder" "production" {
   display_name = "production"
   parent       = "folders/${var.folder_id}"
 }
+
+resource "google_service_account" "im_seed_sas" {
+  account_id   = "pdr-im-seed-sas"
+  display_name = "Pandora IM seed service accounts setup service account"
+  project      = var.seed_project_id
+}
+
+module "im_seed_sas_config_project_bindings" {
+  source   = "terraform-google-modules/iam/google//modules/projects_iam"
+  version  = "~> 7.7"
+  projects = [var.seed_project_id]
+  mode     = "authoritative"
+  bindings = {
+    "roles/config.agent" = [
+      "serviceAccount:${google_service_account.im_seed_sas.email}",
+    ]
+
+    "roles/iam.serviceAccountCreator" = [
+      "serviceAccount:${google_service_account.im_seed_sas.email}",
+    ]
+  }
+}
+
+module "im_seed_sas_project_bindings" {
+  source  = "terraform-google-modules/iam/google//modules/projects_iam"
+  version = "~> 7.7"
+  projects = [
+    module.project-secrets.project_id,
+    module.project-logging.project_id,
+    module.project-shared-vpc-dev.project_id,
+    module.project-shared-vpc-prod.project_id,
+  ]
+  mode = "authoritative"
+  bindings = {
+    "roles/resourcemanager.projectIamAdmin" = [
+      "serviceAccount:${google_service_account.im_seed_sas.email}",
+    ]
+  }
+}
+
+module "im_seed_sas_folder_bindings" {
+  source  = "terraform-google-modules/iam/google//modules/folders_iam"
+  version = "~> 7.7"
+  folders = [
+    google_folder.common.id,
+    google_folder.development.id,
+    google_folder.production.id,
+    google_folder.networking.id,
+  ]
+  mode = "authoritative"
+  bindings = {
+    "roles/resourcemanager.folderIamAdmin" = [
+      "serviceAccount:${google_service_account.im_seed_sas.email}",
+    ]
+  }
+}

@@ -14,6 +14,11 @@
  * limitations under the License.
  */
 
+variable "seed_project_id" {
+  description = "The project id for the seed project to hold all platform service accounts and their bindings"
+  type        = string
+}
+
 variable "folder_id" {
   description = "Top level folder to hold all projects"
   type        = string

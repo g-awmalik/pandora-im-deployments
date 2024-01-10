@@ -41,3 +41,11 @@ output "folder_development" {
 output "folder_production" {
   value = google_folder.production.id
 }
+
+output "folder_common" {
+  value = google_folder.common.id
+}
+
+output "seed_sas_service_account" {
+  value = google_service_account.im_seed_sas.email
+}
