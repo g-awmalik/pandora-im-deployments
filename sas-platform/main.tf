@@ -24,7 +24,7 @@ module "sa_secrets_config_iam_bindings" {
   source   = "terraform-google-modules/iam/google//modules/projects_iam"
   version  = "~> 7.7"
   projects = [var.seed_project_id]
-  mode     = "authoritative"
+  mode     = "additive"
   bindings = {
     "roles/config.agent" = [
       "serviceAccount:${google_service_account.sa_secrets.email}",
@@ -54,7 +54,7 @@ module "sa_logging_config_iam_bindings" {
   source   = "terraform-google-modules/iam/google//modules/projects_iam"
   version  = "~> 7.7"
   projects = [var.seed_project_id]
-  mode     = "authoritative"
+  mode     = "additive"
   bindings = {
     "roles/config.agent" = [
       "serviceAccount:${google_service_account.sa_logging.email}",
@@ -84,7 +84,7 @@ module "sa_networking_config_iam_bindings" {
   source   = "terraform-google-modules/iam/google//modules/projects_iam"
   version  = "~> 7.7"
   projects = [var.seed_project_id]
-  mode     = "authoritative"
+  mode     = "additive"
   bindings = {
     "roles/config.agent" = [
       "serviceAccount:${google_service_account.sa_networking.email}",
@@ -118,7 +118,7 @@ module "sa_app_dev_config_iam_bindings" {
   source   = "terraform-google-modules/iam/google//modules/projects_iam"
   version  = "~> 7.7"
   projects = [var.seed_project_id]
-  mode     = "authoritative"
+  mode     = "additive"
   bindings = {
     "roles/config.agent" = [
       "serviceAccount:${google_service_account.sa_app_dev.email}",
@@ -148,7 +148,7 @@ module "sa_app_prod_config_iam_bindings" {
   source   = "terraform-google-modules/iam/google//modules/projects_iam"
   version  = "~> 7.7"
   projects = [var.seed_project_id]
-  mode     = "authoritative"
+  mode     = "additive"
   bindings = {
     "roles/config.agent" = [
       "serviceAccount:${google_service_account.sa_app_prod.email}",
