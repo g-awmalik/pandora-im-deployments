@@ -21,7 +21,3 @@ output "project_id" {
 output "org_setup_service_account" {
   value = google_service_account.im_org_setup.email
 }
-
-output "seed_sas_service_account" {
-  value = google_service_account.im_seed_sas.email
-}
