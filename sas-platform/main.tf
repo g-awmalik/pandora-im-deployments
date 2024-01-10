@@ -93,7 +93,7 @@ module "sa_networking_config_iam_bindings" {
 }
 
 module "sa_networking_iam_bindings" {
-  source  = "terraform-google-modules/iam/google//modules/folder_iam"
+  source  = "terraform-google-modules/iam/google//modules/folders_iam"
   version = "~> 7.7"
   folders = [var.network_folder_id]
   mode    = "authoritative"
@@ -127,7 +127,7 @@ module "sa_app_dev_config_iam_bindings" {
 }
 
 module "sa_app_dev_iam_bindings" {
-  source  = "terraform-google-modules/iam/google//modules/folder_iam"
+  source  = "terraform-google-modules/iam/google//modules/folders_iam"
   version = "~> 7.7"
   folders = [var.development_folder_id]
   mode    = "authoritative"
@@ -157,7 +157,7 @@ module "sa_app_prod_config_iam_bindings" {
 }
 
 module "sa_app_prod_iam_bindings" {
-  source  = "terraform-google-modules/iam/google//modules/folder_iam"
+  source  = "terraform-google-modules/iam/google//modules/folders_iam"
   version = "~> 7.7"
   folders = [var.production_folder_id]
   mode    = "authoritative"
