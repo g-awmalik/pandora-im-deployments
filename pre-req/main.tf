@@ -79,10 +79,6 @@ module "im_org_setup-folder-bindings" {
     "roles/resourcemanager.projectDeleter" = [
       "serviceAccount:${google_service_account.im_org_setup.email}",
     ]
-
-    "roles/compute.xpnAdmin" = [
-      "serviceAccount:${google_service_account.im_org_setup.email}",
-    ]
   }
 }
 
