@@ -124,51 +124,14 @@ module "im_seed_sas_config_project_bindings" {
   }
 }
 
-module "im_seed_sas_project_bindings" {
-  source  = "terraform-google-modules/iam/google//modules/projects_iam"
-  version = "~> 7.7"
-  projects = [
-    var.seed_project_id,
-    module.project-secrets.project_id,
-    module.project-logging.project_id,
-    module.project-shared-vpc-dev.project_id,
-    module.project-shared-vpc-prod.project_id,
-  ]
-  mode = "additive"
-  bindings = {
-    "roles/resourcemanager.projectIamAdmin" = [
-      "serviceAccount:${local.seed-sa-id}@${var.seed_project_id}.iam.gserviceaccount.com",
-    ]
-  }
-
-  depends_on = [
-    module.project-secrets,
-    module.project-logging,
-    module.project-shared-vpc-dev,
-    module.project-shared-vpc-prod
-  ]
-}
-
 module "im_seed_sas_folder_bindings" {
   source  = "terraform-google-modules/iam/google//modules/folders_iam"
   version = "~> 7.7"
-  folders = [
-    google_folder.common.id,
-    google_folder.development.id,
-    google_folder.production.id,
-    google_folder.networking.id,
-  ]
-  mode = "additive"
+  folders = [var.folder_id]
+  mode    = "additive"
   bindings = {
     "roles/resourcemanager.folderIamAdmin" = [
-      "serviceAccount:${google_service_account.im_seed_sas.email}",
+      "serviceAccount:${local.seed-sa-id}@${var.seed_project_id}.iam.gserviceaccount.com",
     ]
   }
-
-  depends_on = [
-    google_folder.common,
-    google_folder.development,
-    google_folder.production,
-    google_folder.networking,
-  ]
 }
