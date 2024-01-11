@@ -130,7 +130,7 @@ module "im_seed_sas_project_bindings" {
     module.project-shared-vpc-dev.project_id,
     module.project-shared-vpc-prod.project_id,
   ]
-  mode = "authoritative"
+  mode = "additive"
   bindings = {
     "roles/resourcemanager.projectIamAdmin" = [
       "serviceAccount:${google_service_account.im_seed_sas.email}",
