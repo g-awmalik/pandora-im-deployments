@@ -14,11 +14,6 @@
  * limitations under the License.
  */
 
-variable "billing_account" {
-  description = "The ID of the billing account to associate projects with"
-  type        = string
-}
-
 variable "seed_project_id" {
   description = "The seed project for all platform service accounts and their bindings"
   type        = string

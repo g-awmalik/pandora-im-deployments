@@ -38,18 +38,6 @@ resource "google_service_account" "im_org_setup" {
   project      = module.seed-project.project_id
 }
 
-module "billing-account-iam" {
-  source              = "terraform-google-modules/iam/google//modules/billing_accounts_iam"
-  version             = "~> 7.7"
-  billing_account_ids = [var.billing_account]
-  mode                = "additive"
-  bindings = {
-    "roles/billing.user" = [
-      "serviceAccount:${google_service_account.im_org_setup.email}",
-    ]
-  }
-}
-
 module "im_org_setup-project-bindings" {
   source   = "terraform-google-modules/iam/google//modules/projects_iam"
   version  = "~> 7.7"

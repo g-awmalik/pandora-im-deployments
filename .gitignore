@@ -1,6 +1,9 @@
 # GCP environment variables
 setup.sh
 
+# Billing account association configs
+**/billing/*
+
 # Local .tfvars
 **/terraform.tfvars
 
