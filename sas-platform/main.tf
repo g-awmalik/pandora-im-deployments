@@ -135,6 +135,22 @@ module "sa_app_dev_iam_bindings" {
     "roles/resourcemanager.projectCreator" = [
       "serviceAccount:${google_service_account.sa_app_dev.email}",
     ]
+
+    "roles/resourcemanager.projectDeleter" = [
+      "serviceAccount:${google_service_account.sa_app_dev.email}",
+    ]
+  }
+}
+
+module "sa_app_dev_billing-account-iam" {
+  source              = "terraform-google-modules/iam/google//modules/billing_accounts_iam"
+  version             = "~> 7.7"
+  billing_account_ids = [var.billing_account]
+  mode                = "additive"
+  bindings = {
+    "roles/billing.user" = [
+      "serviceAccount:${google_service_account.sa_app_dev.email}",
+    ]
   }
 }
 
@@ -163,6 +179,22 @@ module "sa_app_prod_iam_bindings" {
   mode    = "authoritative"
   bindings = {
     "roles/resourcemanager.projectCreator" = [
+      "serviceAccount:${google_service_account.sa_app_prod.email}",
+    ]
+
+    "roles/resourcemanager.projectDeleter" = [
+      "serviceAccount:${google_service_account.sa_app_prod.email}",
+    ]
+  }
+}
+
+module "sa_app_prod_billing-account-iam" {
+  source              = "terraform-google-modules/iam/google//modules/billing_accounts_iam"
+  version             = "~> 7.7"
+  billing_account_ids = [var.billing_account]
+  mode                = "additive"
+  bindings = {
+    "roles/billing.user" = [
       "serviceAccount:${google_service_account.sa_app_prod.email}",
     ]
   }
