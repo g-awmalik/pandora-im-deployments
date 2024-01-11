@@ -104,6 +104,8 @@ module "sa_networking_iam_bindings" {
 
     "roles/compute.xpnAdmin" = [
       "serviceAccount:${google_service_account.sa_networking.email}",
+      "serviceAccount:${google_service_account.sa_app_dev.email}",
+      "serviceAccount:${google_service_account.sa_app_prod.email}",
     ]
   }
 }
