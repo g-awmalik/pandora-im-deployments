@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Google LLC
+ * Copyright 2019 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,22 +14,10 @@
  * limitations under the License.
  */
 
-module "vpc-dev" {
-  source  = "terraform-google-modules/network/google//modules/vpc"
-  version = "~> 9.0"
-
-  project_id   = var.dev_vpc_project_id
-  network_name = "pdr-net-dev-host"
-
-  shared_vpc_host = true
+output "dev_network_self_link" {
+  value = module.vpc-dev.network_self_link
 }
 
-module "vpc-prod" {
-  source  = "terraform-google-modules/network/google//modules/vpc"
-  version = "~> 9.0"
-
-  project_id   = var.prod_vpc_project_id
-  network_name = "pdr-net-prod-host"
-
-  shared_vpc_host = true
+output "prod_network_self_link" {
+  value = module.vpc-prod.network_self_link
 }
