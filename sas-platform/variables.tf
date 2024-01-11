@@ -39,7 +39,18 @@ variable "development_folder_id" {
   type        = string
 }
 
+variable "dev_network_project_id" {
+  description = "The project for all development network resources such as shared VPCs"
+  type        = string
+
+}
+
 variable "production_folder_id" {
   description = "The folder for all production application projects"
+  type        = string
+}
+
+variable "prod_network_project_id" {
+  description = "The project for all production network resources such as shared VPCs"
   type        = string
 }

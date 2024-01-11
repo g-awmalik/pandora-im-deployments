@@ -126,6 +126,18 @@ module "sa_app_dev_config_iam_bindings" {
   }
 }
 
+module "sa_app_dev_network_iam_bindings" {
+  source   = "terraform-google-modules/iam/google//modules/projects_iam"
+  version  = "~> 7.7"
+  projects = [var.dev_network_project_id]
+  mode     = "additive"
+  bindings = {
+    "roles/resourcemanager.projectIamAdmin" = [
+      "serviceAccount:${google_service_account.sa_app_dev.email}",
+    ]
+  }
+}
+
 module "sa_app_dev_iam_bindings" {
   source  = "terraform-google-modules/iam/google//modules/folders_iam"
   version = "~> 7.7"
@@ -159,6 +171,19 @@ module "sa_app_prod_config_iam_bindings" {
     ]
   }
 }
+
+module "sa_app_prod_network_iam_bindings" {
+  source   = "terraform-google-modules/iam/google//modules/projects_iam"
+  version  = "~> 7.7"
+  projects = [var.prod_network_project_id]
+  mode     = "additive"
+  bindings = {
+    "roles/resourcemanager.projectIamAdmin" = [
+      "serviceAccount:${google_service_account.sa_app_prod.email}",
+    ]
+  }
+}
+
 
 module "sa_app_prod_iam_bindings" {
   source  = "terraform-google-modules/iam/google//modules/folders_iam"
