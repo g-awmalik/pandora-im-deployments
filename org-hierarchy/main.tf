@@ -114,7 +114,7 @@ module "im_seed_sas_config_project_bindings" {
       "serviceAccount:${google_service_account.im_seed_sas.email}",
     ]
 
-    "roles/iam.serviceAccountCreator" = [
+    "roles/iam.serviceAccountAdmin" = [
       "serviceAccount:${google_service_account.im_seed_sas.email}",
     ]
   }
@@ -147,7 +147,7 @@ module "im_seed_sas_folder_bindings" {
     google_folder.production.id,
     google_folder.networking.id,
   ]
-  mode = "authoritative"
+  mode = "additive"
   bindings = {
     "roles/resourcemanager.folderIamAdmin" = [
       "serviceAccount:${google_service_account.im_seed_sas.email}",

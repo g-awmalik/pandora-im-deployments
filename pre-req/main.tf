@@ -48,7 +48,7 @@ module "im_org_setup-project-bindings" {
       "serviceAccount:${google_service_account.im_org_setup.email}",
     ]
 
-    "roles/iam.serviceAccountCreator" = [
+    "roles/iam.serviceAccountAdmin" = [
       "serviceAccount:${google_service_account.im_org_setup.email}",
     ]
   }
