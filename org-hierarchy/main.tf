@@ -133,5 +133,9 @@ module "im_seed_sas_folder_bindings" {
     "roles/resourcemanager.folderIamAdmin" = [
       "serviceAccount:${local.seed-sa-id}@${var.seed_project_id}.iam.gserviceaccount.com",
     ]
+
+    "roles/resourcemanager.projectIamAdmin" = [
+      "serviceAccount:${local.seed-sa-id}@${var.seed_project_id}.iam.gserviceaccount.com",
+    ]
   }
 }
