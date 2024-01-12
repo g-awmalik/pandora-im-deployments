@@ -9,6 +9,7 @@ Before you can use this Terraform code, ensure that you have the following prere
 
 - [Terraform](https://www.terraform.io/downloads.html)
 - [gcloud CLI](https://cloud.google.com/sdk/gcloud)
+- [jq](https://jqlang.github.io/jq/download/)
 
 ## Getting Started
 
