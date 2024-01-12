@@ -14,8 +14,16 @@
  * limitations under the License.
  */
 
+locals {
+  sa_secrets_id    = "pdr-sa-secrets"
+  sa_logging_id    = "pdr-sa-logging"
+  sa_networking_id = "pdr-sa-networking"
+  sa_app_dev_id    = "pdr-sa-app-dev"
+  sa_app_prod_id   = "pdr-sa-prod-dev"
+}
+
 resource "google_service_account" "sa_secrets" {
-  account_id   = "pdr-sa-secrets"
+  account_id   = local.sa_secrets_id
   display_name = "Pandora secrets service account"
   project      = var.seed_project_id
 }
@@ -27,7 +35,7 @@ module "sa_secrets_config_iam_bindings" {
   mode     = "additive"
   bindings = {
     "roles/config.agent" = [
-      "serviceAccount:${google_service_account.sa_secrets.email}",
+      "serviceAccount:${local.sa_secrets_id}@${var.seed_project_id}.iam.gserviceaccount.com",
     ]
   }
 }
@@ -39,13 +47,13 @@ module "sa_secrets_iam_bindings" {
   mode     = "authoritative"
   bindings = {
     "roles/secretmanager.admin" = [
-      "serviceAccount:${google_service_account.sa_secrets.email}",
+      "serviceAccount:${local.sa_secrets_id}@${var.seed_project_id}.iam.gserviceaccount.com",
     ]
   }
 }
 
 resource "google_service_account" "sa_logging" {
-  account_id   = "pdr-sa-loggin"
+  account_id   = local.sa_logging_id
   display_name = "Pandora logging service account"
   project      = var.seed_project_id
 }
@@ -57,7 +65,7 @@ module "sa_logging_config_iam_bindings" {
   mode     = "additive"
   bindings = {
     "roles/config.agent" = [
-      "serviceAccount:${google_service_account.sa_logging.email}",
+      "serviceAccount:${local.sa_logging_id}@${var.seed_project_id}.iam.gserviceaccount.com",
     ]
   }
 }
@@ -69,13 +77,13 @@ module "sa_logging_iam_bindings" {
   mode     = "authoritative"
   bindings = {
     "roles/logging.admin" = [
-      "serviceAccount:${google_service_account.sa_logging.email}",
+      "serviceAccount:${local.sa_logging_id}@${var.seed_project_id}.iam.gserviceaccount.com",
     ]
   }
 }
 
 resource "google_service_account" "sa_networking" {
-  account_id   = "pdr-sa-networking"
+  account_id   = local.sa_networking_id
   display_name = "Pandora networking service account"
   project      = var.seed_project_id
 }
@@ -87,7 +95,7 @@ module "sa_networking_config_iam_bindings" {
   mode     = "additive"
   bindings = {
     "roles/config.agent" = [
-      "serviceAccount:${google_service_account.sa_networking.email}",
+      "serviceAccount:${local.sa_networking_id}@${var.seed_project_id}.iam.gserviceaccount.com",
     ]
   }
 }
@@ -99,19 +107,19 @@ module "sa_networking_iam_bindings" {
   mode    = "authoritative"
   bindings = {
     "roles/compute.networkAdmin" = [
-      "serviceAccount:${google_service_account.sa_networking.email}",
+      "serviceAccount:${local.sa_networking_id}@${var.seed_project_id}.iam.gserviceaccount.com",
     ]
 
     "roles/compute.xpnAdmin" = [
-      "serviceAccount:${google_service_account.sa_networking.email}",
-      "serviceAccount:${google_service_account.sa_app_dev.email}",
-      "serviceAccount:${google_service_account.sa_app_prod.email}",
+      "serviceAccount:${local.sa_networking_id}@${var.seed_project_id}.iam.gserviceaccount.com",
+      "serviceAccount:${local.sa_app_dev_id}@${var.seed_project_id}.iam.gserviceaccount.com",
+      "serviceAccount:${local.sa_app_prod_id}@${var.seed_project_id}.iam.gserviceaccount.com",
     ]
   }
 }
 
 resource "google_service_account" "sa_app_dev" {
-  account_id   = "pdr-sa-app-dev"
+  account_id   = local.sa_app_dev_id
   display_name = "Pandora development application project creator service account"
   project      = var.seed_project_id
 }
@@ -123,7 +131,7 @@ module "sa_app_dev_config_iam_bindings" {
   mode     = "additive"
   bindings = {
     "roles/config.agent" = [
-      "serviceAccount:${google_service_account.sa_app_dev.email}",
+      "serviceAccount:${local.sa_app_dev_id}@${var.seed_project_id}.iam.gserviceaccount.com",
     ]
   }
 }
@@ -135,7 +143,7 @@ module "sa_app_dev_network_iam_bindings" {
   mode     = "additive"
   bindings = {
     "roles/resourcemanager.projectIamAdmin" = [
-      "serviceAccount:${google_service_account.sa_app_dev.email}",
+      "serviceAccount:${local.sa_app_dev_id}@${var.seed_project_id}.iam.gserviceaccount.com",
     ]
   }
 }
@@ -147,21 +155,21 @@ module "sa_app_dev_iam_bindings" {
   mode    = "authoritative"
   bindings = {
     "roles/resourcemanager.projectCreator" = [
-      "serviceAccount:${google_service_account.sa_app_dev.email}",
+      "serviceAccount:${local.sa_app_dev_id}@${var.seed_project_id}.iam.gserviceaccount.com",
     ]
 
     "roles/resourcemanager.projectDeleter" = [
-      "serviceAccount:${google_service_account.sa_app_dev.email}",
+      "serviceAccount:${local.sa_app_dev_id}@${var.seed_project_id}.iam.gserviceaccount.com",
     ]
 
     "roles/compute.xpnAdmin" = [
-      "serviceAccount:${google_service_account.sa_app_dev.email}",
+      "serviceAccount:${local.sa_app_dev_id}@${var.seed_project_id}.iam.gserviceaccount.com",
     ]
   }
 }
 
 resource "google_service_account" "sa_app_prod" {
-  account_id   = "pdr-sa-app-prod"
+  account_id   = local.sa_app_prod_id
   display_name = "Pandora production application project creator service account"
   project      = var.seed_project_id
 }
@@ -173,7 +181,7 @@ module "sa_app_prod_config_iam_bindings" {
   mode     = "additive"
   bindings = {
     "roles/config.agent" = [
-      "serviceAccount:${google_service_account.sa_app_prod.email}",
+      "serviceAccount:${local.sa_app_prod_id}@${var.seed_project_id}.iam.gserviceaccount.com",
     ]
   }
 }
@@ -185,7 +193,7 @@ module "sa_app_prod_network_iam_bindings" {
   mode     = "additive"
   bindings = {
     "roles/resourcemanager.projectIamAdmin" = [
-      "serviceAccount:${google_service_account.sa_app_prod.email}",
+      "serviceAccount:${local.sa_app_prod_id}@${var.seed_project_id}.iam.gserviceaccount.com",
     ]
   }
 }
@@ -197,15 +205,15 @@ module "sa_app_prod_iam_bindings" {
   mode    = "authoritative"
   bindings = {
     "roles/resourcemanager.projectCreator" = [
-      "serviceAccount:${google_service_account.sa_app_prod.email}",
+      "serviceAccount:${local.sa_app_prod_id}@${var.seed_project_id}.iam.gserviceaccount.com",
     ]
 
     "roles/resourcemanager.projectDeleter" = [
-      "serviceAccount:${google_service_account.sa_app_prod.email}",
+      "serviceAccount:${local.sa_app_prod_id}@${var.seed_project_id}.iam.gserviceaccount.com",
     ]
 
     "roles/compute.xpnAdmin" = [
-      "serviceAccount:${google_service_account.sa_app_prod.email}",
+      "serviceAccount:${local.sa_app_prod_id}@${var.seed_project_id}.iam.gserviceaccount.com",
     ]
   }
 }
