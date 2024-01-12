@@ -1,5 +1,6 @@
 # GCP environment variables
 setup.sh
+.env/*
 
 # Billing account association configs
 **/billing/*

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-output "project_id" {
+output "seed_project_id" {
   value = module.seed-project.project_id
 }
 

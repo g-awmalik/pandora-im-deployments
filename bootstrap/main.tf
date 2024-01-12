@@ -38,20 +38,16 @@ resource "google_service_account" "im_org_setup" {
   project      = module.seed-project.project_id
 }
 
-module "im_org_setup-project-bindings" {
-  source   = "terraform-google-modules/iam/google//modules/projects_iam"
-  version  = "~> 7.7"
-  projects = [module.seed-project.project_id]
-  mode     = "additive"
-  bindings = {
-    "roles/config.agent" = [
-      "serviceAccount:${google_service_account.im_org_setup.email}",
-    ]
+resource "google_project_iam_member" "config_agent" {
+  project = module.seed-project.project_id
+  role    = "roles/config.agent"
+  member  = "serviceAccount:${google_service_account.im_org_setup.email}"
+}
 
-    "roles/iam.serviceAccountAdmin" = [
-      "serviceAccount:${google_service_account.im_org_setup.email}",
-    ]
-  }
+resource "google_project_iam_member" "sa_admin" {
+  project = module.seed-project.project_id
+  role    = "roles/iam.serviceAccountAdmin"
+  member  = "serviceAccount:${google_service_account.im_org_setup.email}"
 }
 
 module "im_org_setup-folder-bindings" {
