@@ -19,7 +19,7 @@ locals {
   sa_logging_id    = "pdr-sa-logging"
   sa_networking_id = "pdr-sa-networking"
   sa_app_dev_id    = "pdr-sa-app-dev"
-  sa_app_prod_id   = "pdr-sa-prod-dev"
+  sa_app_prod_id   = "pdr-sa-app-prod"
 }
 
 resource "google_service_account" "sa_secrets" {
